@@ -1,0 +1,23 @@
+{
+  "name": "analogical-watch-server",
+  "version": "1.0.0",
+  "description": "An webserver for the Analogical Watch application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianocts98/analogical-watch-server.git"
+  },
+  "keywords": [],
+  "author": "Juliano Cavalcante Teixeira da Silva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julianocts98/analogical-watch-server/issues"
+  },
+  "homepage": "https://github.com/julianocts98/analogical-watch-server#readme",
+  "dependencies": {
+    "socket.io": "^4.4.1"
+  }
+}
