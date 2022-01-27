@@ -98,6 +98,11 @@ function onTimezoneRoomCreate(socket) {
       console.log(`> User ${socket.id} disconnected!`);
     });
 
+    if (socket.rooms.size > 1) {
+      const previousRoom = Array.from(socket.rooms)[1];
+      socket.leave(previousRoom);
+    }
+
     if (isValidRoomName(timezoneRoomName)) {
       if (!checkIfTimezoneRoomExists(timezoneRoomName)) {
         roomOwner[timezoneRoomName] = socket.id;
@@ -130,6 +135,8 @@ function onTimezoneRoomCreate(socket) {
 function onTimezoneRoomJoin(socket) {
   socket.on("timezoneRoom:join", async (timezoneRoomName) => {
     if (checkIfTimezoneRoomExists(timezoneRoomName)) {
+      const previousRoom = Array.from(socket.rooms)[1];
+      socket.leave(previousRoom);
       socket.join(timezoneRoomName);
       const socketsIds = Array.from(await io.in(timezoneRoomName).allSockets());
       socket.emit(
