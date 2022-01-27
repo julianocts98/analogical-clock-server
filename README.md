@@ -10,6 +10,6 @@ The data from the timezones will be fetched through the [WorldTimeAPI](http://wo
 
 ## TODO
 
-- [ ] Fetch specific time from timezones through the API.
-- [ ] Manage communication from clients and the server using **Socket.IO**.
-- [ ] Enable users to create **Timezone rooms** where the owner can select and share the a timezone in realtime with the room.
+- [X] Fetch specific time from timezones through the API.
+- [X] Manage communication from clients and the server using **Socket.IO**.
+- [ ] (WIP) Enable users to create **Timezone rooms** where the owner can select and share the a timezone in realtime with the room.
