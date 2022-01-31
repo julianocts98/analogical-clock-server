@@ -8,6 +8,12 @@ Its purpose is to fetch and serve the time data from the timezones that the clie
 
 The data from the timezones will be fetched through the [WorldTimeAPI](http://worldtimeapi.org/).
 
+## How to use
+
+1. Clone this repository in your local machine.
+2. Run `npm install`.
+3. To run the server, just run `node .` or `node index.js` inside the repository folder.
+
 ## TODO
 
 - [x] Fetch specific time from timezones through the API.
