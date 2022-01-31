@@ -1,4 +1,4 @@
-# Analogical Watch Server
+# Analogical Clock Server
 
 This is the backend server for the [Analogical Clock](https://github.com/julianocts98/analogical-clock) project, check it out to understand better the usage of this server.
 
@@ -10,6 +10,6 @@ The data from the timezones will be fetched through the [WorldTimeAPI](http://wo
 
 ## TODO
 
-- [X] Fetch specific time from timezones through the API.
-- [X] Manage communication from clients and the server using **Socket.IO**.
+- [x] Fetch specific time from timezones through the API.
+- [x] Manage communication from clients and the server using **Socket.IO**.
 - [ ] (WIP) Enable users to create **Timezone rooms** where the owner can select and share the a timezone in realtime with the room.

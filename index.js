@@ -109,14 +109,14 @@ async function updateDateOfARoom(ownerSocket, selectedTimezone, ownerDatetime) {
   }
 
   if (selectedTimezone !== "local") {
-        const datetimeOfTimezone = formatDatetime(
-          await getDatetimeByTimezone(selectedTimezone)
-        );
+    const datetimeOfTimezone = formatDatetime(
+      await getDatetimeByTimezone(selectedTimezone)
+    );
     emitDatetimeOfTimezone(datetimeOfTimezone);
   } else {
     const datetimeOfTImezone = formatDatetime(ownerDatetime);
     emitDatetimeOfTimezone(datetimeOfTImezone);
-      }
+  }
 }
 
 function requestRefreshDateOfRoom(roomName) {
@@ -167,37 +167,37 @@ async function handleTimezoneRoomJoin(socket, timezoneRoomName) {
     roomUsers,
     roomOwner
   ) {
-        socket.emit(
+    socket.emit(
       "timezoneRoom:join:result",
       message,
       status,
       roomName,
       roomUsers,
       roomOwner
-        );
-      }
+    );
+  }
 
   if (!timezoneRoomExists(timezoneRoomName)) {
     emitTimezoneRoomJoinResult("Room not found!", false);
     return;
-    }
+  }
 
   const currentRoomName = getTimezoneRoomBySocket(socket);
   if (timezoneRoomName === currentRoomName) {
     emitTimezoneRoomJoinResult("You are already in this room!", false);
     return;
-}
+  }
 
   socket.leave(currentRoomName);
-      socket.join(timezoneRoomName);
-      const socketsIds = Array.from(await io.in(timezoneRoomName).allSockets());
+  socket.join(timezoneRoomName);
+  const socketsIds = Array.from(await io.in(timezoneRoomName).allSockets());
   emitTimezoneRoomJoinResult(
-        "Joined successfully!",
-        true,
-        timezoneRoomName,
-        socketsIds,
-        roomOwner[timezoneRoomName]
-      );
+    "Joined successfully!",
+    true,
+    timezoneRoomName,
+    socketsIds,
+    roomOwner[timezoneRoomName]
+  );
 }
 
 const io = new Server({
