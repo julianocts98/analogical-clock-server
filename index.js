@@ -7,6 +7,14 @@ const WORLD_TIME_API_URL = "https://worldtimeapi.org/api/timezone";
 
 let roomOwner = {};
 
+function timezoneRoomExists(roomName) {
+  return roomName in roomOwner;
+}
+
+function timezoneRoomOwnerId(roomName) {
+  return roomOwner[roomName];
+}
+
 function setTimezoneRoomOwnerId(roomName, roomOwnerId) {
   roomOwner[roomName] = roomOwnerId;
 }
