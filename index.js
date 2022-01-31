@@ -7,12 +7,55 @@ const WORLD_TIME_API_URL = "https://worldtimeapi.org/api/timezone";
 
 let roomOwner = {};
 
-function getTimezoneRoomBySocket(socket) {
-  const rooms = Array.from(socket.rooms);
-  return rooms[1];
+function setTimezoneRoomOwnerId(roomName, roomOwnerId) {
+  roomOwner[roomName] = roomOwnerId;
 }
 
-function isSocketInTimezoneRoom(socket) {
+function createTimezoneRoom(roomName, userSocket) {
+  function emitTimezoneRoomCreateResult(message, statusResponse, roomName) {
+    userSocket.emit(
+      "timezoneRoom:create:result",
+      message,
+      statusResponse,
+      roomName,
+      roomName !== undefined ? timezoneRoomOwnerId(roomName) : undefined
+    );
+  }
+
+  if (isSocketInATimezoneRoom(userSocket)) {
+    const currentRoomName = getTimezoneRoomBySocket(userSocket);
+    if (roomName === currentRoomName) {
+      emitTimezoneRoomCreateResult(`You are already in this room!`, false);
+      return false;
+    }
+    userSocket.leave(currentRoomName);
+  }
+
+  if (!isValidRoomName(roomName)) {
+    emitTimezoneRoomCreateResult(
+      "Invalid room name!\n Length must be higher than just one character.\n\" '  ` and whitespaces are not allowed either!",
+      false
+    );
+    return false;
+  }
+
+  if (timezoneRoomExists(roomName)) {
+    emitTimezoneRoomCreateResult(`Room name already taken! Try another`, false);
+    return false;
+  }
+
+  roomOwner[roomName] = userSocket.id;
+  userSocket.join(roomName);
+  emitTimezoneRoomCreateResult(`Room ${roomName} created`, true, roomName);
+
+  return true;
+}
+
+function getTimezoneRoomBySocket(socket) {
+  return Array.from(socket.rooms)[1];
+}
+
+function isSocketInATimezoneRoom(socket) {
   return socket.rooms.size > 1;
 }
 
@@ -65,7 +108,7 @@ function onTimezoneChanged(socket) {
         io.to(room).emit("datetimeOfTimezone", datetimeOfTimezone);
       }
     } else {
-      if (selectedTimezone != "local") {
+      if (selectedTimezone !== "local") {
         const datetimeOfTimezone = formatDatetime(
           await getDatetimeByTimezone(selectedTimezone)
         );
@@ -179,7 +222,7 @@ io.of("/").adapter.on("leave-room", async (room, id) => {
     const socketsIds = Array.from(allSockets);
     if (socketsIds.length > 0) {
       const newOwner = socketsIds[0];
-      roomOwner[room] = newOwner;
+      setTimezoneRoomOwnerId(room, newOwner);
       console.log(`> User ${id} left room ${room}`);
       console.log(`> Changed owner of ${room} from ${id} to ${newOwner}`);
       io.to(room).emit("timezoneRoom:userLeft", room, socketsIds, newOwner);
